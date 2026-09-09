@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Animated, Pressable, Share, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { colors } from '../../theme';
 import { getSupabase } from '../../lib/supabase';
@@ -95,6 +96,12 @@ export function VideoCard({ video, active, onOpenOptions }: Props) {
         delayLongPress={350}
         accessibilityLabel={`Video ${video.title} by ${video.artistName}`}
       />
+      {/* scrim so overlay text and rail stay readable on bright frames */}
+      <LinearGradient
+        pointerEvents="none"
+        colors={['transparent', 'rgba(0,0,0,0.72)']}
+        style={styles.scrim}
+      />
       <Animated.View
         pointerEvents="none"
         style={[
@@ -120,6 +127,7 @@ export function VideoCard({ video, active, onOpenOptions }: Props) {
 
 const styles = StyleSheet.create({
   card: { flex: 1, backgroundColor: '#000' },
+  scrim: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 300 },
   burst: {
     position: 'absolute',
     top: 0,
